@@ -1,0 +1,14 @@
+{
+    "database": "mySql",
+    "username": "root",
+    "password": "",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": 3306,
+    "directory": "./models",
+    "additional": {
+      "timestamps": false
+    },
+    "camelCase": true
+  }
+  
