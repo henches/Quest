@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
-const User_1 = require("./User");
 console.log('ca farte ?');
 // const connection = mysql.createConnection({
 //   host: 'localhost',
@@ -35,26 +34,15 @@ app.use((0, morgan_1.default)('dev'));
 app.get('/hello', (req, res) => {
     res.send('Bonjour, comment ça vayR ?');
 });
-// app.get('/test_type', (req, res) => {
-//   connection.query('SELECT user.userId FROM test where userId = 2', (error, results, fields) => {
-//     if (error) {
-//       console.error('Erreur lors de la récupération des données de la table: ', error);
-//       res.status(500).send('Erreur lors de la récupération des données de la table');
-//     } else {
-//       console.log('Récupération des données de la table réussie');
-//       res.status(200).send(results);
-//     }
-//   });
-// });
 app.get('/test_type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield User_1.Users.findAll({
+        const _users = yield users.findAll({
             attributes: ['Name', 'Password'],
             where: {
                 name: 'Francoise',
             },
         });
-        res.json(users);
+        res.json(_users);
     }
     catch (error) {
         console.error(error);

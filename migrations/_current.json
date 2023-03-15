@@ -1,0 +1,283 @@
+{
+    "tables": {
+        "possible_answers": {
+            "tableName": "possible_answers",
+            "indexes": {
+                "fe6f44e92198e7b565318da28b0c191ee0fd3476": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "possibleAnswerId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                },
+                "222ca34679f8c577d4c5b170ba721f7ea6379643": {
+                    "name": "fk_PossibleAnswer_QuestionType1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionType"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_PossibleAnswer_QuestionType1_idx"
+                    }
+                }
+            }
+        },
+        "questionnaires": {
+            "tableName": "questionnaires",
+            "indexes": {
+                "7d49a8aafd0aa4a508b06c367b8da5a05ed8d32d": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionnaireId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                },
+                "f9e084006c58826cc6f6aa1612373f8ec415f6ae": {
+                    "name": "fk_Questionnaire_QuestionnaireType1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionnaireType"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_Questionnaire_QuestionnaireType1_idx"
+                    }
+                },
+                "0781788531e05a592e6ef8dae0327a24524998db": {
+                    "name": "fk_Questionnaire_Test1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "testId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_Questionnaire_Test1_idx"
+                    }
+                }
+            }
+        },
+        "questionnaire_types": {
+            "tableName": "questionnaire_types",
+            "indexes": {
+                "204f65a2dfc21b078b666906b38f6b0c35294cfe": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionnaireTypeId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                },
+                "f8365e0639d7684af4e5e38d7827526567d1fc1a": {
+                    "name": "fk_QuestionnaireType_TestType_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "testType"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_QuestionnaireType_TestType_idx"
+                    }
+                }
+            }
+        },
+        "questions": {
+            "tableName": "questions",
+            "indexes": {
+                "5c6ad5c78aaf49daa24a38ca0549df4d5598cacb": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionId"
+                        },
+                        {
+                            "name": "possibleAnswer"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                },
+                "ca4d31f263a9a0e8b755b2a287738dc8504ae756": {
+                    "name": "fk_Question_QuestionType1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionType"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_Question_QuestionType1_idx"
+                    }
+                },
+                "4a4bfad738e743088c43b93dff2741a0ab144686": {
+                    "name": "fk_Question_Questionnaire1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionnaire"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_Question_Questionnaire1_idx"
+                    }
+                },
+                "038a92b91470cff93e3483e0b1ad2205da7faa3d": {
+                    "name": "fk_Question_PossibleAnswer1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "possibleAnswer"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_Question_PossibleAnswer1_idx"
+                    }
+                }
+            }
+        },
+        "question_types": {
+            "tableName": "question_types",
+            "indexes": {
+                "c994089ad86a29fc93dc190bf52ee7ca0552263d": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionTypeId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                },
+                "3522aabb0d3853226c9f22246925f7a49226a23a": {
+                    "name": "fk_QuestionType_QuestionnaireType1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "questionnaireType"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_QuestionType_QuestionnaireType1_idx"
+                    }
+                }
+            }
+        },
+        "tests": {
+            "tableName": "tests",
+            "indexes": {
+                "c4da2bcb138d34d4181f7bdc2c4cac83d2585e58": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "testId"
+                        },
+                        {
+                            "name": "userId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                },
+                "6f7632dfa248c3a42f0bf6845f2ae452a4588207": {
+                    "name": "fk_Test_TestType1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "testTypeId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_Test_TestType1_idx"
+                    }
+                },
+                "042d2a3005d877fee809d875924add919d4ee7f5": {
+                    "name": "fk_Test_User1_idx",
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "userId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "fk_Test_User1_idx"
+                    }
+                }
+            }
+        },
+        "test_types": {
+            "tableName": "test_types",
+            "indexes": {
+                "e5fec5a40d3a840368bba086ff5846c2d98ba8d2": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "testTypeId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                }
+            }
+        },
+        "users": {
+            "tableName": "users",
+            "indexes": {
+                "3bc5878a6861c0156b639251c60e4363613dd09f": {
+                    "name": "PRIMARY",
+                    "unique": true,
+                    "using": "BTREE",
+                    "fields": [
+                        {
+                            "name": "userId"
+                        }
+                    ],
+                    "options": {
+                        "indexName": "PRIMARY",
+                        "indicesType": "UNIQUE"
+                    }
+                }
+            }
+        }
+    },
+    "revision": 1
+}

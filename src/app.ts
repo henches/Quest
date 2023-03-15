@@ -1,68 +1,35 @@
-import express from 'express';
-import morgan from 'morgan';
-import { Users } from './User';
-
-console.log('ca farte ?');
-
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'Dufour40',
-//   database: 'mydb',
-// });
-
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Erreur de connexion à la base de données: ', err);
-//   } else {
-//     console.log('Connexion à la base de données établie');
-//   }
-// });
-
+import express, { Request, Response } from 'express';
+import { Sequelize, Op } from 'sequelize';
+import models from '../models'; // Importe les modèles Sequelize
+import initModels from '../models/initModels.js'; // Importe la fonction initModels
 
 const app = express();
 
-// Utilisation du middleware de journalisation
-app.use(morgan('dev'));
+// Initialise la connexion à la base de données Sequelize
+const sequelize = new Sequelize('mysql://username:password@localhost:3306/database_name');
 
-app.get('/hello', (req, res) => {
-  res.send('Bonjour, comment ça vayR ?');
-});
+// Initialise les modèles Sequelize en utilisant la fonction initModels
+const { tests } = initModels(sequelize);
 
-
-
-
-// app.get('/test_type', (req, res) => {
-//   connection.query('SELECT user.userId FROM test where userId = 2', (error, results, fields) => {
-//     if (error) {
-//       console.error('Erreur lors de la récupération des données de la table: ', error);
-//       res.status(500).send('Erreur lors de la récupération des données de la table');
-//     } else {
-//       console.log('Récupération des données de la table réussie');
-//       res.status(200).send(results);
-//     }
-//   });
-// });
-
-
-app.get('/test_type', async (req, res) => {
+// Définit un endpoint pour récupérer la liste des tests
+app.get('/tests', async (req: Request, res: Response) => {
   try {
-    const users = await Users.findAll({
-      attributes: ['Name', 'Password'],
-      where: {
-        name: 'Francoise',
-      },
+    // Récupère la liste des tests en utilisant le modèle Sequelize 'tests'
+    const result = await tests.findAll({
+      include: [
+        { model: models.test_types, as: 'testType' },
+        { model: models.users, as: 'user' },
+        { model: models.questionnaires, as: 'questionnaires' },
+      ],
     });
-    res.json(users);
+    // Renvoie la liste des tests au format JSON
+    res.json(result);
   } catch (error) {
+    // Gère les erreurs et renvoie une réponse HTTP 500
     console.error(error);
-    res.status(500).send('Une erreur est survenue lors de la récupération des utilisateurs.');
+    res.status(500).send('Internal server error');
   }
 });
 
-
-
-
-app.listen(3000, () => {
-  console.log('Le serveur est en écoute sur le port 3000');
-});
+// Lance le serveur Express
+app.listen(3000, () => console.log('Server started on port 3000'));

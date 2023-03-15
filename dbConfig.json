@@ -1,11 +1,14 @@
 {
-    "database": "mySql",
+    "database": "myDb",
     "username": "root",
-    "password": "",
+    "password": "Dufour40",
     "host": "localhost",
     "dialect": "mysql",
     "port": 3306,
-    "directory": "./models",
+    "modelPath": "./models",
+    "migrationPath": "./migrations",
+    "migrationName": "init",
+    "noConfig": true,
     "additional": {
       "timestamps": false
     },
