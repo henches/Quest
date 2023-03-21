@@ -1,35 +1,81 @@
 import express, { Request, Response } from 'express';
-import { Sequelize, Op } from 'sequelize';
-import models from '../models'; // Importe les modèles Sequelize
-import initModels from '../models/initModels.js'; // Importe la fonction initModels
 
-const app = express();
+import morgan from 'morgan';
+import { Sequelize } from 'sequelize';
+import initModels from './models/initModels';
+import { Question } from './models/question';
 
-// Initialise la connexion à la base de données Sequelize
-const sequelize = new Sequelize('mysql://username:password@localhost:3306/database_name');
+export const app = express();
+export const sequelize = new Sequelize('mysql://root:Dufour40@localhost:3306/myDb');
+app.use(morgan('dev'));
 
-// Initialise les modèles Sequelize en utilisant la fonction initModels
-const { tests } = initModels(sequelize);
+initModels(sequelize);
+// tablesEndPoints();
 
-// Définit un endpoint pour récupérer la liste des tests
-app.get('/tests', async (req: Request, res: Response) => {
+
+// app.get('/tests', async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const test = await Test.findOne({
+//       where: { id: 2 },
+//       include: [{ model: TestType, as: 'testType' }, { model: Questionnaire, as: 'questionnaires' }],
+//     });
+//     if (!test) { res.status(404).json({ message: `No test found for user with id ${req.params.userId}.` }); return; }
+
+//     res.json(test);
+//   } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
+// });
+
+// app.get('/questionnaires', async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const questionnaire = await Questionnaire.findOne({
+//       where: { id: 1 },
+//       include: [{ model: QuestionnaireType, as: 'questionnaireType' }],
+//     });
+//     if (!questionnaire) { res.status(404).json({ message: `No test found for user with id ${req.params.userId}.` }); return; }
+
+//     res.json(questionnaire);
+//   } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
+// });
+
+// app.get('/questionnaireTypes', async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const questionnaireTypes = await QuestionnaireType.findOne({
+//       where: { id: 1 },
+//       include: [{ model: Questionnaire, as: 'questionnaires' }, { model: Question, as: 'questions' }],
+//     });
+//     if (!questionnaireTypes) { res.status(404).json({ message: `No test found for user with id ${req.params.userId}.` }); return; }
+
+//     res.json(questionnaireTypes);
+//   } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
+// });
+
+
+app.get('/question', async (req: Request, res: Response) => {
+  console.log("stufous ?")
   try {
-    // Récupère la liste des tests en utilisant le modèle Sequelize 'tests'
-    const result = await tests.findAll({
-      include: [
-        { model: models.test_types, as: 'testType' },
-        { model: models.users, as: 'user' },
-        { model: models.questionnaires, as: 'questionnaires' },
-      ],
+    const result = await Question.findAll({
+      where: { questionnaireTypeId: 1 }
     });
-    // Renvoie la liste des tests au format JSON
     res.json(result);
-  } catch (error) {
-    // Gère les erreurs et renvoie une réponse HTTP 500
-    console.error(error);
-    res.status(500).send('Internal server error');
-  }
+  } catch (error) { console.log(error); res.status(500).send('Internal server error'); }
 });
 
+
+// app.get('/questionnaireByUser', async (req: Request, res: Response): Promise<void> => {
+//   console.log("req.query", req.query);
+// try {
+//   const user = await User.findOne({
+//     where: { name: req.query.name },
+//     include: [{ model: Questionnaire, as: 'questionnaires' }, { model: Question, as: 'questions' }],
+//   });
+//   if (!user) { res.status(404).json({ message: `No test found for user with name ${req.params.name}.` }); return; }
+
+//   res.json(user);
+// } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
+// });
+
+
+
+
 // Lance le serveur Express
-app.listen(3000, () => console.log('Server started on port 3000'));
+app.listen(3001, () => console.log('Server started on port 3001'));

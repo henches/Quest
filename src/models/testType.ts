@@ -1,31 +1,26 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 
 interface TestTypeAttributes {
-  testTypeId: number;
+  id: number;
   name: string;
   organization: string;
   description: string;
 }
 
 interface TestTypeCreationAttributes
-  extends Optional<TestTypeAttributes, 'testTypeId'> {}
+  extends Optional<TestTypeAttributes, 'id'> { }
 
-export class TestType
-  extends Model<TestTypeAttributes, TestTypeCreationAttributes>
-  implements TestTypeAttributes {
-  public testTypeId!: number;
+export class TestType extends Model<TestTypeAttributes, TestTypeCreationAttributes> implements TestTypeAttributes {
+  public id!: number;
   public name!: string;
   public organization!: string;
   public description!: string;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
 }
 
-export function initTestType(sequelize: Sequelize): void {
+export function initTestType(sequelize: Sequelize) {
   TestType.init(
     {
-      testTypeId: {
+      id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
@@ -45,16 +40,8 @@ export function initTestType(sequelize: Sequelize): void {
     },
     {
       sequelize,
-      tableName: 'questions',
+      tableName: 'test_types',
       timestamps: false,
-      indexes: [
-        {
-          name: 'PRIMARY',
-          unique: true,
-          using: 'BTREE',
-          fields: [{ name: 'testTypeId' }],
-        }
-      ],
     },
   );
 }

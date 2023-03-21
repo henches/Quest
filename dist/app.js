@@ -12,44 +12,71 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.sequelize = exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
-console.log('ca farte ?');
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'Dufour40',
-//   database: 'mydb',
+const sequelize_1 = require("sequelize");
+const initModels_1 = __importDefault(require("./models/initModels"));
+const question_1 = require("./models/question");
+exports.app = (0, express_1.default)();
+exports.sequelize = new sequelize_1.Sequelize('mysql://root:Dufour40@localhost:3306/myDb');
+exports.app.use((0, morgan_1.default)('dev'));
+(0, initModels_1.default)(exports.sequelize);
+// tablesEndPoints();
+// app.get('/tests', async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const test = await Test.findOne({
+//       where: { id: 2 },
+//       include: [{ model: TestType, as: 'testType' }, { model: Questionnaire, as: 'questionnaires' }],
+//     });
+//     if (!test) { res.status(404).json({ message: `No test found for user with id ${req.params.userId}.` }); return; }
+//     res.json(test);
+//   } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
 // });
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Erreur de connexion à la base de données: ', err);
-//   } else {
-//     console.log('Connexion à la base de données établie');
-//   }
+// app.get('/questionnaires', async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const questionnaire = await Questionnaire.findOne({
+//       where: { id: 1 },
+//       include: [{ model: QuestionnaireType, as: 'questionnaireType' }],
+//     });
+//     if (!questionnaire) { res.status(404).json({ message: `No test found for user with id ${req.params.userId}.` }); return; }
+//     res.json(questionnaire);
+//   } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
 // });
-const app = (0, express_1.default)();
-// Utilisation du middleware de journalisation
-app.use((0, morgan_1.default)('dev'));
-app.get('/hello', (req, res) => {
-    res.send('Bonjour, comment ça vayR ?');
-});
-app.get('/test_type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// app.get('/questionnaireTypes', async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const questionnaireTypes = await QuestionnaireType.findOne({
+//       where: { id: 1 },
+//       include: [{ model: Questionnaire, as: 'questionnaires' }, { model: Question, as: 'questions' }],
+//     });
+//     if (!questionnaireTypes) { res.status(404).json({ message: `No test found for user with id ${req.params.userId}.` }); return; }
+//     res.json(questionnaireTypes);
+//   } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
+// });
+exports.app.get('/question', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("stufous ?");
     try {
-        const _users = yield users.findAll({
-            attributes: ['Name', 'Password'],
-            where: {
-                name: 'Francoise',
-            },
+        const result = yield question_1.Question.findAll({
+            where: { questionnaireTypeId: 1 }
         });
-        res.json(_users);
+        res.json(result);
     }
     catch (error) {
-        console.error(error);
-        res.status(500).send('Une erreur est survenue lors de la récupération des utilisateurs.');
+        console.log(error);
+        res.status(500).send('Internal server error');
     }
 }));
-app.listen(3000, () => {
-    console.log('Le serveur est en écoute sur le port 3000');
-});
+// app.get('/questionnaireByUser', async (req: Request, res: Response): Promise<void> => {
+//   console.log("req.query", req.query);
+// try {
+//   const user = await User.findOne({
+//     where: { name: req.query.name },
+//     include: [{ model: Questionnaire, as: 'questionnaires' }, { model: Question, as: 'questions' }],
+//   });
+//   if (!user) { res.status(404).json({ message: `No test found for user with name ${req.params.name}.` }); return; }
+//   res.json(user);
+// } catch (err) { console.error(err); res.status(500).json({ message: 'Internal server error' }); }
+// });
+// Lance le serveur Express
+exports.app.listen(3001, () => console.log('Server started on port 3001'));
 //# sourceMappingURL=app.js.map

@@ -7,7 +7,7 @@ interface UserAttributes {
   email: string | null;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'userId'> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'userId'> { }
 
 export class User extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes {
@@ -15,9 +15,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public name!: string | null;
   public password!: string | null;
   public email!: string | null;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
 }
 
 export function initUser(sequelize: Sequelize): void {
@@ -30,7 +27,7 @@ export function initUser(sequelize: Sequelize): void {
       },
       name: {
         type: DataTypes.STRING(45),
-        allowNull: true,
+        allowNull: false,
       },
       password: {
         type: DataTypes.STRING(45),
@@ -45,14 +42,6 @@ export function initUser(sequelize: Sequelize): void {
       sequelize,
       tableName: 'users',
       timestamps: false,
-      indexes: [
-        {
-          name: 'PRIMARY',
-          unique: true,
-          using: 'BTREE',
-          fields: [{ name: 'userId' }],
-        },
-      ],
     },
   );
 }
